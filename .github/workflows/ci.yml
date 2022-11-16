@@ -1,0 +1,50 @@
+name: ☃ build-and-publish
+on:
+  push:
+    branches-ignore:
+      - '*'
+    tags:
+      - '*'
+  workflow_dispatch:
+
+env:
+  IMG_REPO: ghcr.io/mazoea/docker-ci-build
+  JOBNAME: build-and-test
+
+permissions:
+  contents: read
+  packages: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: mazoea/ga-maz/start@master
+        with:
+          MS_TEAMS_URI: ${{ secrets.MS_DQ_TEAMS_WEBHOOK_URI }}
+
+      - uses: actions/checkout@v3
+
+      - name: pull and build
+        run: |
+          TAG=${{ env.IMG_REPO }}:${{ github.ref_name }}
+          echo "Using TAG:$TAG"
+
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker pull $TAG || true
+          docker build . -f Dockerfile --tag $TAG --cache-from $TAG
+
+      - name: push image
+        run: |
+          docker push ${{ env.IMG_REPO }} --all-tags
+        if: ${{ success() && github.ref_type == 'tag' }}
+
+      - uses: mazoea/ga-maz/end@master
+        with:
+          MS_TEAMS_URI: ${{ secrets.MS_DQ_TEAMS_WEBHOOK_URI }}
+        if: ${{ always() }}

@@ -1,0 +1,12 @@
+software-properties-common
+build-essential
+git
+wget
+curl
+m4
+automake
+libtool
+gsfonts
+unzip
+jq
+sudo
