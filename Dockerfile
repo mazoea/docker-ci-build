@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV GCCVERSION=8
 
@@ -22,17 +22,10 @@ RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev
 
-# use locak packages instead of remote
+# use local packages instead of remote
 # RUN wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz -q -O /tmp/Python.tgz && \
 COPY assets/local /tmp/packages/
 
-# also python2 - because of pymod
-# - use --enable-unicode=ucs4 because of amazon lambda
-RUN cd /tmp/packages && tar -xf ./Python-2.7.18.tgz && \
-    cd Python-2.7.18 && \
-    ./configure  --with-cxx-main=/usr/bin/g++ --enable-unicode=ucs4 && \
-    make -j4 && \
-    make install
 
 # RUN wget https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz -q -O /tmp/openssl.tgz && \
 # hack - /opt/openssl/
@@ -67,13 +60,6 @@ RUN apt-get -q install -y docker.io
 
 RUN rm -rf /tmp/packages
 
-COPY assets/include $TE_LIBS/include
-COPY assets/lib/ $TE_LIBS/lib/
-RUN cd $TE_LIBS/lib/ && \
-    ln -sf libleptonica1.so.1.78.0 libleptonica1.so && \
-    ln -sf libtesseract3-maz.so.3.0.2 libtesseract3-maz.so && \
-    ln -sf libtesseract4-maz.so.4.1.0 libtesseract4-maz.so
-
 RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh
 
 RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
@@ -85,5 +71,16 @@ RUN git --version || true && \
     cmake --version || true && \
     python --version || true && \
     python3 --version || true
+
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y wget gnupg2
+RUN apt-get update && \
+    wget -O /tmp/.key https://apt.llvm.org/llvm-snapshot.gpg.key && \
+    apt-key add /tmp/.key
+RUN echo 'deb  http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main' >> /etc/apt/sources.list
+RUN apt-get update && \
+    apt-get install -y clang-13 clang-tidy-13 libc++-dev libc++abi-dev
+
+RUN clang-tidy-13 --version
 
 WORKDIR /te

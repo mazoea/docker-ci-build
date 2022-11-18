@@ -1,6 +1,6 @@
-git push origin :u18g8py38i2t
-git tag -d u18g8py38i2t
-git tag u18g8py38i2t
-git push origin te_base_u18_g8_py38_i2t_deps --tags
+git push origin :u20g8py38clangtidy
+git tag -d u20g8py38clangtidy
+git tag u20g8py38clangtidy
+git push origin te_base_u20_g8_py38_clangtidy13 --tags
 
 pause
