@@ -24,7 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -q install -y zlib1g-dev liblzma-dev 
 
 # use locak packages instead of remote
 # RUN wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz -q -O /tmp/Python.tgz && \
-COPY local /tmp/packages/
+COPY assets/local /tmp/packages/
 
 # also python2 - because of pymod
 # - use --enable-unicode=ucs4 because of amazon lambda
@@ -59,7 +59,7 @@ RUN cd /tmp/packages && tar -xf ./Python-3.8.7.tgz && \
 RUN ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
     ln -sf /usr/local/bin/pip3 /usr/local/bin/pip
 
-COPY requirements.txt /mazoea/ci/requirements.txt
+COPY assets/requirements.txt /mazoea/ci/requirements.txt
 RUN PYTHONWARNINGS=once pip3 install -U --ignore-installed -r /mazoea/ci/requirements.txt
 RUN python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
 
