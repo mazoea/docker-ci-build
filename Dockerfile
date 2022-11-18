@@ -20,6 +20,58 @@ COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 
 RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev
+
+# use locak packages instead of remote
+# RUN wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz -q -O /tmp/Python.tgz && \
+COPY local /tmp/packages/
+
+# also python2 - because of pymod
+# - use --enable-unicode=ucs4 because of amazon lambda
+RUN cd /tmp/packages && tar -xf ./Python-2.7.18.tgz && \
+    cd Python-2.7.18 && \
+    ./configure  --with-cxx-main=/usr/bin/g++ --enable-unicode=ucs4 && \
+    make -j4 && \
+    make install
+
+# RUN wget https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz -q -O /tmp/openssl.tgz && \
+# hack - /opt/openssl/
+RUN cd /tmp/packages && tar -xf ./openssl-1.0.2u.tar.gz && \
+    cd openssl-1.0.2u && \
+    ./config -fPIC -shared  --prefix=/usr --openssldir=/usr && \
+    make && mkdir lib && \
+    cp -av ./*.so* ./lib && \
+    cp -av ./*.a ./lib && \
+    cp -av ./*.pc ./lib && \
+    mv /tmp/packages/openssl-1.0.2u/ /opt/openssl/ && \
+    make install && \
+    cp /opt/openssl/libssl.so.1.0.0 /lib/x86_64-linux-gnu/libssl.so.1.0.0 && \
+    cp /opt/openssl/libssl.a /usr/lib/x86_64-linux-gnu/libssl.a && \
+    cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
+    cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a
+
+RUN cd /tmp/packages && tar -xf ./Python-3.8.7.tgz && \
+    cd Python-3.8.7 && \
+    ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
+    make -j4 && \
+    make install
+
+RUN ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
+    ln -sf /usr/local/bin/pip3 /usr/local/bin/pip
+
+COPY requirements.txt /mazoea/ci/requirements.txt
+RUN PYTHONWARNINGS=once pip3 install -U --ignore-installed -r /mazoea/ci/requirements.txt
+RUN python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
+
+RUN apt-get -q install -y docker.io
+
+RUN rm -rf /tmp/packages
+
+RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh
+
+RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
+RUN python3 -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
+
 RUN git --version || true && \
     g++ --version || true && \
     gcc --version || true && \
