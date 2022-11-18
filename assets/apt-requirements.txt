@@ -6,7 +6,9 @@ curl
 m4
 automake
 libtool
-gsfonts
 unzip
 jq
+libpng-dev
+libfreetype6-dev
+python3-pip
 sudo
