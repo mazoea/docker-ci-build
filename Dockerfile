@@ -15,8 +15,8 @@ ENV TE_LIBS=/mazoea/installation
 ENV TE_LIBS_LOGS=$TE_LIBS/__logs
 
 WORKDIR /mazoea/ci/build/
-COPY os.specific.sh /mazoea/ci/build/os.specific.sh
-COPY apt-requirements.txt /mazoea/ci/apt-requirements.txt
+COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
+COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 
 RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
 
