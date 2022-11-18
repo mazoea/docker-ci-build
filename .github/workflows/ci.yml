@@ -21,8 +21,8 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: mazoea-linux
+    timeout-minutes: 40
     steps:
       - uses: mazoea/ga-maz/start@master
         with:
