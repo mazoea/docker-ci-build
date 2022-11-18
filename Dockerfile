@@ -67,6 +67,13 @@ RUN apt-get -q install -y docker.io
 
 RUN rm -rf /tmp/packages
 
+COPY include $TE_LIBS/include
+COPY lib/ $TE_LIBS/lib/
+RUN cd $TE_LIBS/lib/ && \
+    ln -sf libleptonica1.so.1.78.0 libleptonica1.so && \
+    ln -sf libtesseract3-maz.so.3.0.2 libtesseract3-maz.so && \
+    ln -sf libtesseract4-maz.so.4.1.0 libtesseract4-maz.so
+
 RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh
 
 RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"

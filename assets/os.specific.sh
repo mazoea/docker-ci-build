@@ -31,6 +31,28 @@ g++ --version || echo "g++ not present"
 cmake --version || echo "cmake not present"
 
 
+#GGMAJOR=`g++ -dumpversion | cut -f1 -d.`
+if [[ "x$GCCVERSION" != "x" ]]; then
+    VERSION=$GCCVERSION
+else
+    VERSION=4.8
+fi
+update-alternatives --remove-all gcc 
+update-alternatives --remove-all g++
+
+echo "installing g++$VERSION"
+
+apt-get install --reinstall ca-certificates
+
+add-apt-repository ppa:ubuntu-toolchain-r/test -y
+add-apt-repository ppa:git-core/ppa -y
+apt-get -qq update || true
+apt-get -q install -y gcc-$VERSION g++-$VERSION git
+add-apt-repository --remove ppa:ubuntu-toolchain-r/test -y
+add-apt-repository --remove ppa:git-core/ppa -y
+
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$VERSION 90 --slave /usr/bin/g++ g++ /usr/bin/g++-$VERSION
+
 echo "installing cmake3"
 # add-apt-repository ppa:george-edison55/cmake-3.x -y
 # apt-get -qq update || true
@@ -44,26 +66,13 @@ wget https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2-Lin
     /tmp/cmake-install.sh --skip-license --exclude-subdir --prefix=/usr/local/ && \
     rm /tmp/cmake-install.sh
 
-#GGMAJOR=`g++ -dumpversion | cut -f1 -d.`
-if [[ "x$GCCVERSION" != "x" ]]; then
-    VERSION=$GCCVERSION
-else
-    VERSION=4.8
-fi
-update-alternatives --remove-all gcc 
-update-alternatives --remove-all g++
-
-echo "installing g++$VERSION"
-add-apt-repository ppa:ubuntu-toolchain-r/test -y
-add-apt-repository ppa:git-core/ppa -y
-apt-get -qq update || true
-apt-get -q install -y gcc-$VERSION g++-$VERSION git
-add-apt-repository --remove ppa:ubuntu-toolchain-r/test -y
-add-apt-repository --remove ppa:git-core/ppa -y
-
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$VERSION 90 --slave /usr/bin/g++ g++ /usr/bin/g++-$VERSION
 gcc --version || echo "gcc not present"
 g++ --version || echo "g++ not present"
+
+# ensure gcc
+echo "Running: g++-$VERSION --version"
+g++-$VERSION --version
+
 echo "gcc flags default detection"
 gcc -Q --help=target
 echo "gcc flags native detection"
