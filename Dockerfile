@@ -73,7 +73,7 @@ RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh
 RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
 RUN python3 -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
 
-RUN git config --global --add safe.directory '*' && \
+RUN git config --system --add safe.directory '*' && \
     git config --list
 
 RUN git --version || true && \
