@@ -1,6 +1,5 @@
 software-properties-common
 build-essential
-git
 wget
 curl
 m4
