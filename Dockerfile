@@ -13,14 +13,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV HD=/mazoea
 ENV TE_LIBS=/mazoea/installation
 ENV TE_LIBS_LOGS=$TE_LIBS/__logs
-ENV GITVER=2.31.1
 
 WORKDIR /mazoea/ci/build/
 COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
 COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
-COPY assets/git.tar.gz /mazoea/ci/git.tar.gz
 
-RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
+# fix annoying git safety concerns
+RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
+    git config --global --add safe.directory '*'
 
 RUN git --version || true && \
     g++ --version || true && \
