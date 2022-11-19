@@ -18,7 +18,9 @@ WORKDIR /mazoea/ci/build/
 COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
 COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 
-RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
+# fix annoying git safety concerns
+RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
+    git config --global --add safe.directory '*'
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev
 
