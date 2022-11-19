@@ -18,10 +18,13 @@ fi
 
 # install specific git version 2.31 otherwise we will get the hell out of dubious permissions in github actions
 if [[ -f $FS/git.tar.gz ]]; then
+    apt-get install -y dh-autoreconf libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
     pushd $FS
     tar -zxf ./git.tar.gz
     cd ./git-$GITVER
-    make prefix=/usr install install-doc install-html install-info
+    make configure
+    ./configure --prefix=/usr
+    make install
     git –-version
     popd
 fi
