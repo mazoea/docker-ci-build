@@ -74,7 +74,7 @@ RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current val
 RUN python3 -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
 
 RUN git config --system --add safe.directory '*' && \
-    git config --list
+    git config --list --show-origin 
 
 RUN git --version || true && \
     g++ --version || true && \
