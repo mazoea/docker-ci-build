@@ -18,7 +18,6 @@ WORKDIR /mazoea/ci/build/
 COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
 COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 
-# fix annoying git safety concerns
 RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev
@@ -80,8 +79,8 @@ RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh
 RUN python -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
 RUN python3 -c "import sys ; print('1114111 for UCS4, 65535 for UCS2: current value [%d]' % sys.maxunicode)"
 
-RUN git config --global --add safe.directory '*' && \
-    git config --list
+RUN git config --system --add safe.directory '*' && \
+    git config --list --show-origin
 
 RUN git --version || true && \
     g++ --version || true && \
