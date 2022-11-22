@@ -20,6 +20,9 @@ COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 
 RUN GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh
 
+RUN git config --system --add safe.directory '*' && \
+    git config --list --show-origin
+
 RUN git --version || true && \
     g++ --version || true && \
     gcc --version || true && \
