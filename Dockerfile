@@ -75,15 +75,15 @@ RUN git --version || true && \
     python --version || true && \
     python3 --version || true
 
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y wget gnupg2
-RUN apt-get update && \
-    wget -O /tmp/.key https://apt.llvm.org/llvm-snapshot.gpg.key && \
-    apt-key add /tmp/.key
-RUN echo 'deb  http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main' >> /etc/apt/sources.list
-RUN apt-get update && \
-    apt-get install -y clang-13 clang-tidy-13 libc++-dev libc++abi-dev
-
-RUN clang-tidy-13 --version
-
 WORKDIR /te
+
+COPY assets/oclint-22.02-llvm-13.0.1-x86_64-linux-ubuntu-20.04.tar.gz /opt/
+
+RUN tar xvzf ./oclint-22.02-llvm-13.0.1-x86_64-linux-ubuntu-20.04.tar.gz && \
+    rm -f ./oclint-22.02-llvm-13.0.1-x86_64-linux-ubuntu-20.04.tar.gz && \
+        mv oclint-22.02 oclint
+
+ENV PATH=/opt/oclint/bin:$PATH
+
+RUN oclint --version
+

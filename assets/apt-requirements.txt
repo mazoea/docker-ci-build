@@ -10,3 +10,4 @@ gsfonts
 unzip
 jq
 sudo
+wget
