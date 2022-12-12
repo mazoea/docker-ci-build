@@ -65,6 +65,10 @@ RUN python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
 
 RUN apt-get -q install -y docker.io
 
+# git lfs support
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash && \
+    apt-get -q install -y git-lfs
+
 RUN rm -rf /tmp/packages
 
 COPY assets/include $TE_LIBS/include
