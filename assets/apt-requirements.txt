@@ -10,3 +10,7 @@ gsfonts
 unzip
 jq
 sudo
+# te-ml
+graphviz
+python3-tk
+python3-pip

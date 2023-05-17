@@ -2,3 +2,10 @@ urllib3
 coverage
 nose
 pyyaml
+# te-ml
+scikit-learn
+scipy
+numpy
+pydotplus
+pandas
+matplotlib
