@@ -11,8 +11,9 @@ apt-get -qq update || true
 if [[ -f $FS/apt-requirements.txt ]]; then
     echo "apt-ing"
     apt-get -qq update
-    echo "apt-ing $FS/apt-requirements.txt"
-    xargs apt-get -q install -y < $FS/apt-requirements.txt
+    grep -vwE "^#" $FS/apt-requirements.txt > $FS/apt-requirements-clean.txt
+    echo "apt-ing $FS/apt-requirements-clean.txt"
+    xargs apt-get -q install -y < $FS/apt-requirements-clean.txt
 fi
 
 if [[ "x$GIT_CONFIGURE" == "xtrue" ]]; then
