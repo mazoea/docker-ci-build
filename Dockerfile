@@ -59,6 +59,7 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     make -j4 && \
     make install && \
     \
+    cd / && \
     rm -rf /tmp/assets/local && \
     \
     ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
