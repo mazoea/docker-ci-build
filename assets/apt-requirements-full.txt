@@ -1,5 +1,4 @@
 docker.io
-# te tests
 curl
 gsfonts
 gsfonts-x11
@@ -14,7 +13,6 @@ libffi-dev
 libffi6
 python-openssl
 libgl1-mesa-dev
-# docker
 unzip
 jq
 git-core
