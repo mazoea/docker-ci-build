@@ -1,4 +1,6 @@
 urllib3
 coverage
 nose
+pylint==2.12.2
 pyyaml
+redis

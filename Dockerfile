@@ -63,12 +63,12 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     rm -rf /tmp/assets/local && \
     \
     ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
-    ln -sf /usr/local/bin/pip3 /usr/local/bin/pip && \
-    \
-    PYTHONWARNINGS=once pip3 install -U --ignore-installed -r /mazoea/ci/requirements.txt && \
-    python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
+    ln -sf /usr/local/bin/pip3 /usr/local/bin/pip
 
 RUN xargs apt-get -q install -y < /mazoea/ci/apt-requirements-full.txt
+
+RUN PYTHONWARNINGS=once pip3 install -U --ignore-installed -r /mazoea/ci/requirements.txt && \
+    python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
 
 RUN mkdir -p ~/.ssh && chmod 0700 ~/.ssh &&  \
     \
