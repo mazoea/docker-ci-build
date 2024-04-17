@@ -2,7 +2,6 @@ docker.io
 curl
 gsfonts
 gsfonts-x11
-xpdf
 cloc
 autoconf
 mlocate
@@ -10,7 +9,7 @@ wget
 zip
 libssl-dev
 libffi-dev
-libffi6
+libffi7
 python-openssl
 libgl1-mesa-dev
 unzip

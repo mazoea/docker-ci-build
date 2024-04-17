@@ -32,6 +32,21 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
     apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev && \
     \
+    cd /tmp/assets/local && tar -xf ./openssl-1.0.2u.tar.gz && \
+    cd openssl-1.0.2u && \
+    ./config -fPIC -shared  --prefix=/usr --openssldir=/usr && \
+    make && mkdir lib && \
+    cp -av ./*.so* ./lib && \
+    cp -av ./*.a ./lib && \
+    cp -av ./*.pc ./lib && \
+    \
+    mv /tmp/assets/local/openssl-1.0.2u/ /opt/openssl/ && \
+    make install && \
+    cp /opt/openssl/libssl.so.1.0.0 /lib/x86_64-linux-gnu/libssl.so.1.0.0 && \
+    cp /opt/openssl/libssl.a /usr/lib/x86_64-linux-gnu/libssl.a && \
+    cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
+    cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a && \
+    \
     cd /tmp/assets/local && tar -xf ./Python-3.8.7.tgz && \
     cd Python-3.8.7 && \
     ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
