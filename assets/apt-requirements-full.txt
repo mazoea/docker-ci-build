@@ -7,11 +7,7 @@ autoconf
 mlocate
 wget
 zip
-libssl-dev
-libffi-dev
-libffi7
 python-openssl
-libgl1-mesa-dev
 unzip
 jq
 git-core

@@ -7,8 +7,4 @@ autoconf
 mlocate
 wget
 zip
-libssl-dev
-libffi-dev
-libffi6
 python-openssl
-libgl1-mesa-dev
