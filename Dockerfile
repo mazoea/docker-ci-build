@@ -47,8 +47,8 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
     cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a && \
     \
-    cd /tmp/assets/local && tar -xf ./Python-3.8.7.tgz && \
-    cd Python-3.8.7 && \
+    cd /tmp/assets/local && tar -xf ./Python-3.9.16.tgz && \
+    cd Python-3.9.16 && \
     ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
     make -j4 && \
     make install && \
