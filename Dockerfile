@@ -50,8 +50,8 @@ RUN cd /tmp/packages && tar -xf ./openssl-1.0.2u.tar.gz && \
     cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
     cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a
 
-RUN cd /tmp/packages && tar -xf ./Python-3.8.7.tgz && \
-    cd Python-3.8.7 && \
+RUN cd /tmp/packages && tar -xf ./Python-3.9.16.tgz && \
+    cd Python-3.9.16 && \
     ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
     make -j4 && \
     make install
