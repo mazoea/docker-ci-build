@@ -1,6 +1,6 @@
-FROM ubuntu:16.04
+FROM ubuntu:22.04
 
-ENV GCCVERSION=8
+ENV GCCVERSION=11
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y locales
 
@@ -50,9 +50,9 @@ RUN cd /tmp/packages && tar -xf ./openssl-1.0.2u.tar.gz && \
     cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
     cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a
 
-RUN cd /tmp/packages && tar -xf ./Python-3.9.16.tgz && \
-    cd Python-3.9.16 && \
-    ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
+RUN cd /tmp/packages && tar -xf ./Python-3.13.0.tgz && \
+    cd Python-3.13.0 && \
+    ./configure  --enable-optimizations --with-openssl=/opt/openssl/ && \
     make -j4 && \
     make install
 
