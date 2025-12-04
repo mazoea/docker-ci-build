@@ -7,7 +7,6 @@ autoconf
 mlocate
 wget
 zip
-python-openssl
 unzip
 jq
 git-core

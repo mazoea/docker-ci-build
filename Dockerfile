@@ -1,6 +1,6 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-ENV GCCVERSION=8
+ENV GCCVERSION=12
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
@@ -26,30 +26,21 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     cp /tmp/assets/requirements.txt /mazoea/ci/requirements.txt && \
     \
     apt-get -q update && \
-    apt-get -q install -y locales && \
+    apt-get -q install -y locales build-essential && \
     locale-gen en_US.UTF-8 && \
     \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
+    apt-get -q install -y gcc-12 g++-12 && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 100 && \
+    update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 100 && \
+    update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 100 && \
+    \
     apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev && \
     \
-    cd /tmp/assets/local && tar -xf ./openssl-1.0.2u.tar.gz && \
-    cd openssl-1.0.2u && \
-    ./config -fPIC -shared  --prefix=/usr --openssldir=/usr && \
-    make && mkdir lib && \
-    cp -av ./*.so* ./lib && \
-    cp -av ./*.a ./lib && \
-    cp -av ./*.pc ./lib && \
-    \
-    mv /tmp/assets/local/openssl-1.0.2u/ /opt/openssl/ && \
-    make install && \
-    cp /opt/openssl/libssl.so.1.0.0 /lib/x86_64-linux-gnu/libssl.so.1.0.0 && \
-    cp /opt/openssl/libssl.a /usr/lib/x86_64-linux-gnu/libssl.a && \
-    cp /opt/openssl/libcrypto.so.1.0.0 /lib/x86_64-linux-gnu/libcrypto.so.1.0.0 && \
-    cp /opt/openssl/libcrypto.a /usr/lib/x86_64-linux-gnu/libcrypto.a && \
-    \
-    cd /tmp/assets/local && tar -xf ./Python-3.9.16.tgz && \
-    cd Python-3.9.16 && \
-    ./configure  --enable-optimizations --with-openssl=/opt/openssl/ --enable-unicode=ucs4 && \
+    cd /tmp/assets/local && tar -xf ./Python-3.13.0.tgz && \
+    cd Python-3.13.0 && \
+    ./configure  --enable-optimizations --with-ssl-default-suites=openssl && \
     make -j4 && \
     make install && \
     \
@@ -59,7 +50,8 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
     ln -sf /usr/local/bin/pip3 /usr/local/bin/pip
 
-RUN xargs apt-get -q install -y < /mazoea/ci/apt-requirements-full.txt
+RUN apt-get -q update && \
+    xargs apt-get -q install -y < /mazoea/ci/apt-requirements-full.txt
 
 RUN PYTHONWARNINGS=once pip3 install -U --ignore-installed -r /mazoea/ci/requirements.txt && \
     python3 -c "import ssl ; print(ssl.OPENSSL_VERSION)"
