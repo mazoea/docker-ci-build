@@ -26,16 +26,10 @@ RUN cp /tmp/assets/os.specific.sh /mazoea/ci/build/os.specific.sh && \
     cp /tmp/assets/requirements.txt /mazoea/ci/requirements.txt && \
     \
     apt-get -q update && \
-    apt-get -q install -y locales build-essential && \
+    apt-get -q install -y locales && \
     locale-gen en_US.UTF-8 && \
     \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
-    apt-get -q install -y gcc-12 g++-12 && \
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 100 && \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 100 && \
-    update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 100 && \
-    update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 100 && \
-    \
     apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev && \
     \
     cd /tmp/assets/local && tar -xf ./Python-3.13.0.tgz && \
