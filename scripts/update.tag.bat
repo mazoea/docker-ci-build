@@ -1,6 +1,6 @@
-git push origin :u18g8
-git tag -d u18g8
-git tag u18g8
-git push origin te_base_u18_g8 --tags
+git push origin :u22g12
+git tag -d u22g12
+git tag u22g12
+git push origin te_base_u22_g12 --tags
 
 pause
