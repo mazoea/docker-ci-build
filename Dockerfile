@@ -18,11 +18,22 @@ COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 RUN apt-get -q update && \
     apt-get -q install -y locales && \
     locale-gen en_US.UTF-8 && \
+    \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
     apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev docker.io && \
     \
+    cd /tmp/assets/local && tar -xf ./Python-3.12.12.tgz && \
+    cd Python-3.12.12 && \
+    ./configure  --enable-optimizations --with-ssl-default-suites=openssl && \
+    make -j4 && \
+    make install && \
+    \
     cd / && \
+    rm -rf /tmp/assets/local && \
     rm -rf /var/lib/apt/lists/* && \
+    \
+    ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
+    ln -sf /usr/local/bin/pip3 /usr/local/bin/pip \
     \
     mkdir -p ~/.ssh && chmod 0700 ~/.ssh &&  \
     \
