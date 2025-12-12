@@ -18,6 +18,7 @@ COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
 RUN apt-get -q update && \
     apt-get -q install -y locales && \
     locale-gen en_US.UTF-8 && \
+    \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
     apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev docker.io && \
     \
