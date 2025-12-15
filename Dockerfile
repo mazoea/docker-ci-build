@@ -1,28 +1,12 @@
-FROM ubuntu:22.04
+FROM ghcr.io/mazoea/docker-ci-build:u22g12
 
-ENV GCCVERSION=12
-
-ENV LC_ALL=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive 
-
-ENV HD=/mazoea
-ENV TE_LIBS=/mazoea/installation
-ENV TE_LIBS_LOGS=$TE_LIBS/__logs
-
-WORKDIR /mazoea/ci/build/
-COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
-COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
+COPY assets/apt-requirements.txt /tmp/assets/apt-requirements.txt
 
 RUN apt-get -q update && \
-    apt-get -q install -y locales && \
-    locale-gen en_US.UTF-8 && \
-    \
-    GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
-    apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev docker.io && \
+    xargs apt-get -q install -y < /tmp/assets/apt-requirements.txt \
     \
     cd / && \
+    rm -rf /tmp/assets/ && \
     rm -rf /var/lib/apt/lists/* && \
     \
     mkdir -p ~/.ssh && chmod 0700 ~/.ssh &&  \

@@ -10,4 +10,5 @@ gsfonts
 unzip
 jq
 sudo
+python3
 python3-pip
