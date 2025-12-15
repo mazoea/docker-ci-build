@@ -10,7 +10,6 @@ RUN apt-get -q update && \
     cd / && \
     install -d -m 0755 /etc/apt/keyrings && \
     wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor -o /etc/apt/keyrings/apt.llvm.org.gpg && \
-    apt-key add /tmp/.key && \
     echo 'deb [signed-by=/etc/apt/keyrings/apt.llvm.org.gpg] http://apt.llvm.org/jammy/ llvm-toolchain-jammy main' > /etc/apt/sources.list.d/llvm.list && \
     apt-get update -y && \
     apt-get install -y clang clang-tidy libc++-dev libc++abi-dev && \
