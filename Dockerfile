@@ -18,7 +18,6 @@ RUN apt-get -q update && \
     g++ --version && \
     gcc --version && \
     cmake --version && \
-    python --version && \
     python3 --version
 
 WORKDIR /te
