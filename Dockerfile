@@ -17,7 +17,7 @@ RUN apt-get -q update && \
     rm -rf /tmp/assets/ && \
     rm -rf /var/lib/apt/lists/* && \
     \
-    clang-tidy-13 --version && \
+    clang-tidy --version && \
     git --version && \
     g++ --version && \
     gcc --version && \
