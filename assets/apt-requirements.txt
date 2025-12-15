@@ -10,3 +10,6 @@ gsfonts
 unzip
 jq
 sudo
+docker.io
+gnupg2
+ca-certificates
