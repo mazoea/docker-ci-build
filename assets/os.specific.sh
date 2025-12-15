@@ -1,18 +1,20 @@
 #!/bin/bash
+set -euo pipefail
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export FS=$THISDIR/..
 
 locale -a
-update-locale LANG=$LANG || echo "problem setting locale"
+LANG="${LANG:-C.UTF-8}"
+update-locale LANG="$LANG"
 
-apt-get -qq update || true
+apt-get -qq update
 
-if [[ -f $FS/apt-requirements.txt ]]; then
+if [[ -f "$FS/apt-requirements.txt" ]]; then
     echo "apt-ing"
     apt-get -qq update
     echo "apt-ing $FS/apt-requirements.txt"
-    xargs apt-get -q install -y < $FS/apt-requirements.txt
+    xargs -r apt-get -q install -y < "$FS/apt-requirements.txt"
 fi
 
 if [[ "x$GIT_CONFIGURE" == "xtrue" ]]; then
@@ -56,7 +58,7 @@ update-alternatives --remove-all g++
 echo "installing g++$VERSION"
 add-apt-repository ppa:ubuntu-toolchain-r/test -y
 add-apt-repository ppa:git-core/ppa -y
-apt-get -qq update || true
+apt-get -qq update
 apt-get -q install -y gcc-$VERSION g++-$VERSION git
 add-apt-repository --remove ppa:ubuntu-toolchain-r/test -y
 add-apt-repository --remove ppa:git-core/ppa -y

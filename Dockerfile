@@ -3,7 +3,7 @@ FROM ghcr.io/mazoea/docker-ci-build:u22g12
 COPY assets/apt-requirements.txt /tmp/assets/apt-requirements.txt
 
 RUN apt-get -q update && \
-    xargs apt-get -q install -y < /tmp/assets/apt-requirements.txt \
+    xargs -r apt-get -q install -y < /tmp/assets/apt-requirements.txt && \
     \
     cd / && \
     rm -rf /tmp/assets/ && \
@@ -14,11 +14,11 @@ RUN apt-get -q update && \
     git config --system --add safe.directory '*' && \
     git config --list --show-origin && \
     \
-    git --version || true && \
-    g++ --version || true && \
-    gcc --version || true && \
-    cmake --version || true && \
-    python --version || true && \
-    python3 --version || true
+    git --version && \
+    g++ --version && \
+    gcc --version && \
+    cmake --version && \
+    python --version && \
+    python3 --version
 
 WORKDIR /te
