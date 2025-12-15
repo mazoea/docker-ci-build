@@ -15,7 +15,7 @@ RUN apt-get -q update && \
     make install && \
     \
     cd / && \
-    rm -rf /tmp/assets/local && \
+    rm -rf /tmp/assets/ && \
     rm -rf /var/lib/apt/lists/* && \
     \
     ln -sf /usr/local/bin/python3 /usr/local/bin/python && \
