@@ -10,3 +10,15 @@ gsfonts
 unzip
 jq
 sudo
+docker.io
+gsfonts-x11
+cloc
+autoconf
+mlocate
+zip
+libssl-dev
+libffi-dev
+libffi7
+python-openssl
+libgl1-mesa-dev
+git-core
