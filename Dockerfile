@@ -5,7 +5,7 @@ COPY assets/requirements.txt /tmp/assets/requirements.txt
 
 RUN apt-get -q update && \
     xargs -r apt-get -q install -y < /tmp/assets/apt-requirements.txt && \
-    pip install -q --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install -q --no-cache-dir --upgrade pip && \
     pip install -q --no-cache-dir -r /tmp/assets/requirements.txt && \
     \
     cd / && \
