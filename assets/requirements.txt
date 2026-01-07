@@ -14,5 +14,7 @@ six
 setuptools
 wheel
 requests
-torch~=2.9.1+cpu
-torchvision~=0.24.1+cpu
+--find-links https://download.pytorch.org/whl/cpu/torch/
+torch==2.9.1+cpu
+--find-links https://download.pytorch.org/whl/cpu/torchvision/
+torchvision==0.24.1+cpu
