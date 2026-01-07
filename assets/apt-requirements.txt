@@ -19,6 +19,5 @@ zip
 libssl-dev
 libffi-dev
 libffi7
-python3-openssl
 libgl1-mesa-dev
 git-core
