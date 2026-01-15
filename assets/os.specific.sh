@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export FS=$THISDIR/..
@@ -16,9 +17,6 @@ if [[ -f $FS/dnf-requirements.txt ]]; then
     dnf install -y $(cat $FS/dnf-requirements.txt)
 fi
 
-# Ensure python points to python3
-ln -sf /usr/bin/python3 /usr/bin/python
-
 if [[ "x$GIT_CONFIGURE" == "xtrue" ]]; then
     echo "Updating git"
     git config --global user.name "ci@mazoea"
@@ -33,7 +31,6 @@ cat /proc/cpuinfo || echo "cpuinfo problem"
 gcc --version || echo "gcc not present"
 g++ --version || echo "g++ not present"
 cmake --version || echo "cmake not present"
-python --version || echo "python not present"
 
 echo "gcc flags default detection"
 gcc -Q --help=target || true
