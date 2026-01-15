@@ -1,0 +1,10 @@
+git
+gcc
+gcc-c++
+cmake
+curl
+tar
+gzip
+unzip
+jq
+which

@@ -1,11 +1,10 @@
-FROM ubuntu:22.04
+FROM amazon/aws-lambda-python:3.12-arm64
 
 ENV GCCVERSION=12
 
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV LANGUAGE=en_US.UTF-8 
 
 ENV HD=/mazoea
 ENV TE_LIBS=/mazoea/installation
@@ -13,16 +12,11 @@ ENV TE_LIBS_LOGS=$TE_LIBS/__logs
 
 WORKDIR /mazoea/ci/build/
 COPY assets/os.specific.sh /mazoea/ci/build/os.specific.sh
-COPY assets/apt-requirements.txt /mazoea/ci/apt-requirements.txt
+COPY assets/dnf-requirements.txt /mazoea/ci/dnf-requirements.txt
 
-RUN apt-get -q update && \
-    apt-get -q install -y locales && \
-    locale-gen en_US.UTF-8 && \
+RUN chmod +x ./os.specific.sh && \
     GIT_CONFIGURE=true GITDEPTH="--depth 3" ./os.specific.sh && \
-    apt-get -q install -y zlib1g-dev liblzma-dev libffi-dev libssl-dev libsqlite3-dev libbz2-dev docker.io && \
-    \
-    cd / && \
-    rm -rf /var/lib/apt/lists/* && \
+    dnf clean all && \
     \
     mkdir -p ~/.ssh && chmod 0700 ~/.ssh &&  \
     \
