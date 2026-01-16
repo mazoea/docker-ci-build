@@ -1,4 +1,4 @@
-FROM amazon/aws-lambda-python:3.12-arm64
+FROM --platform=linux/arm64 amazon/aws-lambda-python:3.12-arm64
 
 ENV GCCVERSION=12
 
@@ -31,3 +31,5 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 
 WORKDIR /te
+
+ENTRYPOINT ["/bin/bash"]
