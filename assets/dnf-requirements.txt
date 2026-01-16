@@ -2,7 +2,7 @@ git
 gcc
 gcc-c++
 cmake
-curl
+curl-minimal
 tar
 gzip
 unzip

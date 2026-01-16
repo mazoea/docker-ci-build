@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 THISDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export PROVIDER=mazoea
 
 export FS=$THISDIR/..
 
@@ -19,8 +20,8 @@ fi
 
 if [[ "x$GIT_CONFIGURE" == "xtrue" ]]; then
     echo "Updating git"
-    git config --global user.name "ci@mazoea"
-    git config --global user.email "ci@$BUILDER"
+    git config --global user.name "ci@$PROVIDER"
+    git config --global user.email "ci@$PROVIDER"
     git config --global core.filemode false
 fi
 
