@@ -8,3 +8,4 @@ gzip
 unzip
 jq
 which
+wget
