@@ -9,3 +9,5 @@ unzip
 jq
 which
 wget
+hostname
+m4
