@@ -11,3 +11,12 @@ which
 wget
 hostname
 m4
+make
+gawk
+diffutils
+autoconf
+automake
+libtool
+which
+findutils
+gettext
