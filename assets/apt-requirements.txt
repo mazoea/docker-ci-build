@@ -10,4 +10,3 @@ gsfonts
 unzip
 jq
 sudo
-libstdc++-static
