@@ -20,3 +20,4 @@ libtool
 which
 findutils
 gettext
+libstdc++-static
