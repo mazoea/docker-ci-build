@@ -28,7 +28,7 @@ jobs:
         with:
           MS_TEAMS_URI: ${{ secrets.MS_DQ_TEAMS_WEBHOOK_URI }}
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: pull and build
         run: |
